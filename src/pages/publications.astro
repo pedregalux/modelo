@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PublicationItem from '../components/PublicationItem.astro';
+import { AUTHOR_NAME, SITE_DESCRIPTION } from '../consts';
+
+const publications = (await getCollection('publications')).sort(
+	(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const grouped = new Map<number, typeof publications>();
+for (const pub of publications) {
+	const year = pub.data.date.getFullYear();
+	if (!grouped.has(year)) grouped.set(year, []);
+	grouped.get(year)!.push(pub);
+}
+---
+
+<BaseLayout
+	title={`Publicaciones · ${AUTHOR_NAME}`}
+	description={SITE_DESCRIPTION}
+>
+	<style slot="head">
+		main {
+			width: 720px;
+		}
+		h1 {
+			margin-bottom: 0.25em;
+		}
+		.subtitle {
+			color: rgb(var(--gray));
+			margin-bottom: 2em;
+		}
+		h2 {
+			font-size: 1.5rem;
+			margin-top: 2em;
+			border-bottom: 1px solid rgb(var(--gray-light));
+			padding-bottom: 0.4em;
+		}
+		ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+
+	<h1>Publicaciones</h1>
+	<p class="subtitle">
+		Artículos, conferencias y capítulos de libro. Haz clic en el título para acceder a la versión
+		completa o al DOI.
+	</p>
+
+	{[...grouped.entries()].map(([year, items]) => (
+		<section>
+			<h2>{year}</h2>
+			<ul>
+				{items.map((pub) => <PublicationItem {...pub} />)}
+			</ul>
+		</section>
+	))}
+</BaseLayout>

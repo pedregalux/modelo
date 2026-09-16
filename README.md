@@ -1,63 +1,83 @@
-# Astro Starter Kit: Blog
+# Portafolio académico (Astro + Keystatic + Cloudflare Pages)
+
+Portafolio académico de una profesora universitaria: publicaciones, proyectos, videos y blog.
+Sitio estático construido con [Astro](https://astro.build), contenido gestionado con
+[Keystatic](https://keystatic.com) (CMS headless basado en Git) y desplegado en
+[Cloudflare Pages](https://pages.cloudflare.com) a través de GitHub.
+
+## Estructura de contenido
+
+Las colecciones se definen en `src/content/` y se tipan en `src/content.config.ts`:
+
+| Colección      | Carpeta                    | Contenido                          |
+| :------------- | :------------------------- | :--------------------------------- |
+| `blog`         | `src/content/blog/`        | Entradas del blog (`.mdoc`)        |
+| `publications` | `src/content/publications/`| Artículos, conferencias, capítulos |
+| `projects`     | `src/content/projects/`    | Proyectos de investigación/docencia|
+| `videos`       | `src/content/videos/`      | Videos (YouTube)                   |
+
+El esquema editable del CMS está en `keystatic.config.ts`.
+
+## Desarrollo
 
 ```sh
-pnpm create astro@latest -- --template blog
+pnpm install
+pnpm dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- Sitio: <http://localhost:4321>
+- Panel del CMS: <http://localhost:4321/keystatic>
 
-Features:
+### Usar el CMS con GitHub
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+1. Sube el proyecto a un repositorio de GitHub.
+2. Crea un archivo `.env` a partir de `.env.example` y define
+   `PUBLIC_KEYSTATIC_GITHUB_REPO=tu-usuario/tu-repositorio`.
+3. Con `pnpm dev` en marcha, entra a `/keystatic`, pulsa **Login with GitHub** y sigue el
+   asistente (crea la GitHub App y la instala en tu repositorio). Keystatic generará las
+   variables de autenticación en tu `.env`.
+4. Guarda y publica contenido desde el panel: Keystatic crea commits en el repositorio.
+5. Al hacer push a `main`, el workflow de GitHub Actions despliega el sitio en Cloudflare Pages.
 
-## 🚀 Project Structure
+> El panel solo se activa en desarrollo. El build de producción (`pnpm build`) genera un
+> sitio 100% estático sin el CMS.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Despliegue en Cloudflare Pages
 
-```text
-├── public/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
-```
+### Opción A: GitHub Actions (incluida)
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+El repositorio incluye `.github/workflows/deploy.yml` que compila y despliega en cada push a `main`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+1. Crea un proyecto Pages en Cloudflare (por ejemplo `modelo-portfolio`), sin conectar aún a Git.
+2. Añade dos **Secretos** en el repositorio (Settings → Secrets and variables → Actions):
+   - `CLOUDFLARE_API_TOKEN` — token de la API de Cloudflare (dashboard → My Profile → API Tokens).
+   - `CLOUDFLARE_ACCOUNT_ID` — ID de tu cuenta Cloudflare.
+3. Ajusta `--project-name` en el workflow si tu proyecto se llama distinto.
+4. Haz push a `main`: el sitio queda disponible en `https://<proyecto>.pages.dev`.
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+### Opción B: integración nativa de Cloudflare Pages
 
-Any static assets, like images, can be placed in the `public/` directory.
+En Cloudflare → Pages → **Create a project** → conectar el repositorio de GitHub:
 
-## 🧞 Commands
+- Framework preset: **Astro**
+- Build command: `pnpm build`
+- Output directory: `dist`
 
-All commands are run from the root of the project, from a terminal:
+Ambas opciones generan el mismo resultado. La opción A es más transparente (CI visible en
+GitHub Actions).
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+## Personalización
 
-## 👀 Want to learn more?
+- Datos personales (nombre, universidad, correo, enlaces): `src/consts.ts`.
+- URLs (ORCID, Google Scholar, GitHub): `src/consts.ts`.
+- `site` (dominio canónico): `astro.config.mjs`.
+- Nombre del proyecto Pages en el workflow: `.github/workflows/deploy.yml`.
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Comandos
 
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+| Comando             | Acción                                      |
+| :------------------ | :------------------------------------------ |
+| `pnpm install`      | Instala dependencias                        |
+| `pnpm dev`          | Servidor de desarrollo en `localhost:4321`  |
+| `pnpm build`        | Compila el sitio estático en `./dist/`      |
+| `pnpm preview`      | Previsualiza el build en local              |

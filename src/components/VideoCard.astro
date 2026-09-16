@@ -1,0 +1,110 @@
+---
+import FormattedDate from './FormattedDate.astro';
+import type { CollectionEntry } from 'astro:content';
+
+type Props = CollectionEntry<'videos'>;
+
+const { title, description, date, url, duration, tags } = Astro.props.data;
+const youtubeId = url.match(/v=([^&]+)/)?.[1];
+---
+
+<article class="card">
+	<a class="card-link" href={url} target="_blank" rel="noopener">
+		<div class="thumb">
+			{youtubeId ? (
+				<img
+					src={`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`}
+					alt=""
+					loading="lazy"
+				/>
+			) : (
+				<div class="thumb-placeholder">▶</div>
+			)}
+			{duration && <span class="duration">{duration}</span>}
+		</div>
+		<div class="body">
+			<h3 class="title">{title}</h3>
+			<p class="date">
+				<FormattedDate date={date} />
+			</p>
+			<p class="description">{description}</p>
+			<div class="tags">
+				{tags.map((tag) => <span class="tag">{tag}</span>)}
+			</div>
+		</div>
+	</a>
+</article>
+<style>
+	.card {
+		border-radius: 12px;
+		border: 1px solid rgb(var(--gray-light));
+		overflow: hidden;
+		transition: box-shadow 0.2s ease;
+		background: #fff;
+	}
+	.card:hover {
+		box-shadow: var(--box-shadow);
+	}
+	.card-link {
+		text-decoration: none;
+		color: inherit;
+	}
+	.thumb {
+		position: relative;
+	}
+	.thumb img {
+		display: block;
+		width: 100%;
+		height: 180px;
+		object-fit: cover;
+		border-radius: 0;
+	}
+	.thumb-placeholder {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 180px;
+		background: rgb(var(--gray-light));
+		color: rgb(var(--gray));
+		font-size: 2.5rem;
+	}
+	.duration {
+		position: absolute;
+		right: 0.5em;
+		bottom: 0.5em;
+		font-size: 0.8rem;
+		padding: 0.15em 0.5em;
+		border-radius: 6px;
+		background: rgba(0, 0, 0, 0.75);
+		color: #fff;
+	}
+	.body {
+		padding: 1em;
+	}
+	.title {
+		margin: 0 0 0.25em 0;
+		font-size: 1.1rem;
+		color: var(--accent);
+	}
+	.date {
+		margin: 0 0 0.5em 0;
+		font-size: 0.85rem;
+		color: rgb(var(--gray));
+	}
+	.description {
+		margin: 0 0 0.8em 0;
+		font-size: 0.9rem;
+	}
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4em;
+	}
+	.tag {
+		font-size: 0.8rem;
+		padding: 0.15em 0.5em;
+		border-radius: 999px;
+		background: rgb(var(--gray-light));
+		color: rgb(var(--gray-dark));
+	}
+</style>

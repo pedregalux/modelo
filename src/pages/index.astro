@@ -1,49 +1,200 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PublicationItem from '../components/PublicationItem.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import VideoCard from '../components/VideoCard.astro';
+import PostCard from '../components/PostCard.astro';
+import {
+	AUTHOR_AFFILIATION,
+	AUTHOR_NAME,
+	AUTHOR_ROLE,
+	AUTHOR_SHORT_BIO,
+	AUTHOR_URLS,
+	SITE_DESCRIPTION,
+	SITE_TITLE,
+} from '../consts';
+import ProfileImage from '../assets/blog-placeholder-about.jpg';
+
+const publications = (await getCollection('publications')).sort(
+	(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const featuredPublications = publications.filter((p) => p.data.featured).slice(0, 4);
+
+const projects = (await getCollection('projects')).sort(
+	(a, b) => b.data.startDate.valueOf() - a.data.startDate.valueOf(),
+);
+const featuredProjects = projects.filter((p) => p.data.featured).slice(0, 2);
+
+const videos = (await getCollection('videos')).sort(
+	(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const featuredVideos = videos.filter((v) => v.data.featured).slice(0, 2);
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const recentPosts = posts.slice(0, 3);
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<style slot="head">
+		main {
+			width: 960px;
+		}
+		.section {
+			margin: 3em 0;
+		}
+		.section-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+			gap: 1em;
+			margin-bottom: 1.25em;
+			border-bottom: 1px solid rgb(var(--gray-light));
+			padding-bottom: 0.5em;
+		}
+		.section-header h2 {
+			margin: 0;
+			font-size: 1.75rem;
+		}
+		.section-header a {
+			font-size: 0.9rem;
+			text-decoration: none;
+		}
+		.section-header a:hover {
+			text-decoration: underline;
+		}
+		.hero {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			margin-bottom: 2em;
+		}
+		.hero img {
+			width: 160px;
+			height: 160px;
+			border-radius: 50%;
+			object-fit: cover;
+			box-shadow: var(--box-shadow);
+		}
+		.hero h1 {
+			margin: 0 0 0.15em 0;
+			font-size: 2.5rem;
+		}
+		.hero .role {
+			margin: 0 0 0.2em 0;
+			color: var(--accent);
+			font-weight: 700;
+			font-size: 1.1rem;
+		}
+		.hero .affiliation {
+			margin: 0 0 0.75em 0;
+			color: rgb(var(--gray));
+		}
+		.hero .bio {
+			margin: 0 auto;
+			max-width: 60ch;
+		}
+		.hero-links {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 0.75em;
+			margin-top: 1em;
+		}
+		.hero-links a {
+			font-size: 0.9rem;
+			padding: 0.45em 1em;
+			border-radius: 999px;
+			text-decoration: none;
+			border: 1px solid rgb(var(--gray-light));
+			color: var(--accent);
+		}
+		.hero-links a:hover {
+			border-color: var(--accent-dark);
+			color: var(--accent-dark);
+		}
+		.publications-list {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.5em;
+		}
+		@media (max-width: 720px) {
+			.hero {
+				grid-template-columns: 1fr;
+				text-align: center;
+			}
+			.hero img {
+				margin: 0 auto;
+			}
+			.hero .bio {
+				margin: 0 auto;
+			}
+			.hero-links {
+				justify-content: center;
+			}
+			.grid {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+
+	<section class="hero">
+		<div>
+			<h1>{AUTHOR_NAME}</h1>
+			<p class="role">{AUTHOR_ROLE}</p>
+			<p class="affiliation">{AUTHOR_AFFILIATION}</p>
+			<p class="bio">{AUTHOR_SHORT_BIO}</p>
+			<div class="hero-links">
+				<a href={AUTHOR_URLS.orcid} target="_blank" rel="noopener">ORCID</a>
+				<a href={AUTHOR_URLS.googlescholar} target="_blank" rel="noopener">Google Scholar</a>
+				<a href={AUTHOR_URLS.email}>Contacto</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="section-header">
+			<h2>Publicaciones destacadas</h2>
+			<a href="/publications">Ver todas →</a>
+		</div>
+		<ul class="publications-list">
+			{featuredPublications.map((p) => <PublicationItem {...p} />)}
+		</ul>
+	</section>
+
+	<section class="section">
+		<div class="section-header">
+			<h2>Proyectos</h2>
+			<a href="/projects">Ver todos →</a>
+		</div>
+		<div class="grid">
+			{featuredProjects.map((p) => <ProjectCard {...p} />)}
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="section-header">
+			<h2>Videos recientes</h2>
+			<a href="/videos">Ver todos →</a>
+		</div>
+		<div class="grid">
+			{featuredVideos.map((v) => <VideoCard {...v} />)}
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="section-header">
+			<h2>Del blog</h2>
+			<a href="/blog">Ver todas las entradas →</a>
+		</div>
+		{recentPosts.map((post) => <PostCard {...post} />)}
+	</section>
+</BaseLayout>

@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import VideoCard from '../components/VideoCard.astro';
+import { AUTHOR_NAME, SITE_DESCRIPTION } from '../consts';
+
+const videos = (await getCollection('videos')).sort(
+	(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<BaseLayout title={`Videos · ${AUTHOR_NAME}`} description={SITE_DESCRIPTION}>
+	<style slot="head">
+		main {
+			width: 960px;
+		}
+		h1 {
+			margin-bottom: 0.25em;
+		}
+		.subtitle {
+			color: rgb(var(--gray));
+			margin-bottom: 2em;
+		}
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.5em;
+		}
+		@media (max-width: 720px) {
+			.grid {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+
+	<h1>Videos</h1>
+	<p class="subtitle">
+		Conferencias, clases magistrales, tutoriales y entrevistas. Haz clic en cada tarjeta para ver el
+		video en YouTube.
+	</p>
+
+	<div class="grid">
+		{videos.map((v) => <VideoCard {...v} />)}
+	</div>
+</BaseLayout>
