@@ -150,6 +150,54 @@ export default config({
 				content: fields.markdoc({ label: 'Contenido' }),
 			},
 		}),
+		research: collection({
+			label: 'Investigación',
+			slugField: 'title',
+			path: 'src/content/research/*',
+			format: { contentField: 'content' },
+			schema: {
+				title: fields.slug({
+					name: { label: 'Título', validation: { isRequired: true } },
+				}),
+				description: fields.text({
+					label: 'Descripción breve',
+					multiline: true,
+					validation: { isRequired: true },
+				}),
+				startDate: fields.date({
+					label: 'Fecha de inicio',
+					validation: { isRequired: true },
+				}),
+				endDate: fields.date({
+					label: 'Fecha de fin',
+					description: 'Opcional. Vacío si sigue activo.',
+				}),
+				status: fields.select({
+					label: 'Estado',
+					options: [
+						{ label: 'Activo', value: 'activo' },
+						{ label: 'Finalizado', value: 'finalizado' },
+						{ label: 'En pausa', value: 'en pausa' },
+					],
+					defaultValue: 'activo',
+				}),
+				tags: tagsField,
+				heroImage: heroImageField,
+				links: fields.object(
+					{
+						site: fields.url({ label: 'Sitio del proyecto' }),
+						github: fields.url({ label: 'Código fuente' }),
+						paper: fields.url({ label: 'Publicación relacionada' }),
+					},
+					{ label: 'Enlaces' },
+				),
+				featured: fields.checkbox({
+					label: 'Destacado',
+					description: 'Se muestra en la portada.',
+				}),
+				content: fields.markdoc({ label: 'Contenido' }),
+			},
+		}),
 		videos: collection({
 			label: 'Videos',
 			slugField: 'title',

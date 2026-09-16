@@ -5,17 +5,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { AUTHOR_NAME } from '../../consts';
 
 export async function getStaticPaths() {
-	const projects = await getCollection('projects');
-	return projects.map((project) => ({
-		params: { slug: project.id },
-		props: project,
+	const research = await getCollection('research');
+	return research.map((item) => ({
+		params: { slug: item.id },
+		props: item,
 	}));
 }
-type Props = CollectionEntry<'projects'>;
+type Props = CollectionEntry<'research'>;
 
-const project = Astro.props;
-const { title, description, startDate, endDate, status, tags, heroImage, links } = project.data;
-const { Content } = await render(project);
+const item = Astro.props;
+const { title, description, startDate, endDate, status, tags, heroImage, links } = item.data;
+const { Content } = await render(item);
 const statusLabels: Record<string, string> = {
 	activo: 'Activo',
 	finalizado: 'Finalizado',
@@ -24,7 +24,7 @@ const statusLabels: Record<string, string> = {
 ---
 
 <BaseLayout title={`${title} · ${AUTHOR_NAME}`} description={description}>
-	<a href="/projects" class="text-accent hover:text-accent-dark">← Todos los proyectos</a>
+	<a href="/research" class="text-accent hover:text-accent-dark">← Toda la investigación</a>
 
 	<h1 class="mb-2 text-[3.052em] font-bold leading-[1.1] text-ink">{title}</h1>
 

@@ -6,6 +6,7 @@ import react from '@astrojs/react';
 import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro';
 import { defineConfig, fontProviders } from 'astro/config';
+import tailwindcss from '@tailwindcss/vite';
 
 // El panel de Keystatic (/keystatic) requiere rutas en servidor (SSR).
 // En los builds de producción (Cloudflare Pages) generamos un sitio 100% estático,
@@ -20,6 +21,9 @@ if (isProductionBuild) {
 export default defineConfig({
 	site: 'https://example.com',
 	output: 'static',
+	vite: {
+		plugins: [tailwindcss()],
+	},
 	integrations: [
 		react(),
 		markdoc(),

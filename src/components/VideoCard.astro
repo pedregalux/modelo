@@ -8,103 +8,38 @@ const { title, description, date, url, duration, tags } = Astro.props.data;
 const youtubeId = url.match(/v=([^&]+)/)?.[1];
 ---
 
-<article class="card">
-	<a class="card-link" href={url} target="_blank" rel="noopener">
-		<div class="thumb">
+<article class="overflow-hidden rounded-xl border border-mist bg-white transition-shadow duration-200 hover:shadow-card">
+	<a class="group no-underline text-inherit" href={url} target="_blank" rel="noopener">
+		<div class="relative">
 			{youtubeId ? (
 				<img
 					src={`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`}
 					alt=""
 					loading="lazy"
+					class="block h-[180px] w-full object-cover"
 				/>
 			) : (
-				<div class="thumb-placeholder">▶</div>
+				<div class="flex h-[180px] items-center justify-center bg-mist text-[2.5rem] text-slate">
+					▶
+				</div>
 			)}
-			{duration && <span class="duration">{duration}</span>}
+			{duration && (
+				<span class="absolute bottom-2 right-2 rounded-md bg-black/75 px-2 py-[0.15em] text-[0.8em] text-white">
+					{duration}
+				</span>
+			)}
 		</div>
-		<div class="body">
-			<h3 class="title">{title}</h3>
-			<p class="date">
+		<div class="p-4">
+			<h3 class="m-0 mb-1 text-[1.05em] text-accent">{title}</h3>
+			<p class="m-0 mb-2 text-[0.9em] text-slate">
 				<FormattedDate date={date} />
 			</p>
-			<p class="description">{description}</p>
-			<div class="tags">
-				{tags.map((tag) => <span class="tag">{tag}</span>)}
+			<p class="m-0 mb-[0.8em] text-[0.95em]">{description}</p>
+			<div class="flex flex-wrap gap-1">
+				{tags.map((tag) => (
+					<span class="rounded-full bg-mist px-2 py-[0.15em] text-[0.8em] text-night">{tag}</span>
+				))}
 			</div>
 		</div>
 	</a>
 </article>
-<style>
-	.card {
-		border-radius: 12px;
-		border: 1px solid rgb(var(--gray-light));
-		overflow: hidden;
-		transition: box-shadow 0.2s ease;
-		background: #fff;
-	}
-	.card:hover {
-		box-shadow: var(--box-shadow);
-	}
-	.card-link {
-		text-decoration: none;
-		color: inherit;
-	}
-	.thumb {
-		position: relative;
-	}
-	.thumb img {
-		display: block;
-		width: 100%;
-		height: 180px;
-		object-fit: cover;
-		border-radius: 0;
-	}
-	.thumb-placeholder {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 180px;
-		background: rgb(var(--gray-light));
-		color: rgb(var(--gray));
-		font-size: 2.5rem;
-	}
-	.duration {
-		position: absolute;
-		right: 0.5em;
-		bottom: 0.5em;
-		font-size: 0.8rem;
-		padding: 0.15em 0.5em;
-		border-radius: 6px;
-		background: rgba(0, 0, 0, 0.75);
-		color: #fff;
-	}
-	.body {
-		padding: 1em;
-	}
-	.title {
-		margin: 0 0 0.25em 0;
-		font-size: 1.1rem;
-		color: var(--accent);
-	}
-	.date {
-		margin: 0 0 0.5em 0;
-		font-size: 0.85rem;
-		color: rgb(var(--gray));
-	}
-	.description {
-		margin: 0 0 0.8em 0;
-		font-size: 0.9rem;
-	}
-	.tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.4em;
-	}
-	.tag {
-		font-size: 0.8rem;
-		padding: 0.15em 0.5em;
-		border-radius: 999px;
-		background: rgb(var(--gray-light));
-		color: rgb(var(--gray-dark));
-	}
-</style>

@@ -8,75 +8,34 @@ const link = url || (doi ? `https://doi.org/${doi}` : undefined);
 const year = date.getFullYear();
 ---
 
-<li class:list={['publication', { featured }]}>
-	<div class="publication-main">
-		<h3 class="title">
+<li
+	class:list={[
+		'flex items-start justify-between gap-4 border-b border-mist py-[1.25em] max-[720px]:flex-col max-[720px]:gap-2',
+		{ featured },
+	]}
+>
+	<div>
+		<h3
+			class:list={[
+				'm-0 mb-[0.3em] text-[1.1em] leading-[1.3]',
+				featured && 'font-bold',
+			]}
+		>
 			{link ? (
-				<a href={link} target="_blank" rel="noopener">
+				<a href={link} target="_blank" rel="noopener" class="no-underline hover:underline">
 					{title}
 				</a>
 			) : (
 				title
 			)}
 		</h3>
-		<p class="authors">{authors}</p>
-		<p class="venue">
+		<p class="m-0 mb-1 text-[0.95em] text-slate">{authors}</p>
+		<p class="m-0 text-[0.95em] italic">
 			{venue}
-			<span class="year">({year})</span>
+			<span class="not-italic">({year})</span>
 		</p>
 	</div>
-	<span class="badge">{type}</span>
+	<span class="shrink-0 rounded-full bg-mist px-[0.6em] py-1 text-[0.8em] uppercase tracking-[0.04em] text-night">
+		{type}
+	</span>
 </li>
-<style>
-	.publication {
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-start;
-		gap: 1em;
-		padding: 1.25em 0;
-		border-bottom: 1px solid rgb(var(--gray-light));
-	}
-	.publication.featured .title {
-		font-weight: 700;
-	}
-	.title {
-		margin: 0 0 0.3em 0;
-		font-size: 1.15rem;
-		line-height: 1.3;
-	}
-	.title a {
-		text-decoration: none;
-	}
-	.title a:hover {
-		text-decoration: underline;
-	}
-	.authors {
-		margin: 0 0 0.25em 0;
-		font-size: 0.9rem;
-		color: rgb(var(--gray));
-	}
-	.venue {
-		margin: 0;
-		font-size: 0.9rem;
-		font-style: italic;
-	}
-	.year {
-		font-style: normal;
-	}
-	.badge {
-		flex-shrink: 0;
-		font-size: 0.75rem;
-		text-transform: uppercase;
-		letter-spacing: 0.04em;
-		padding: 0.25em 0.6em;
-		border-radius: 999px;
-		background: rgb(var(--gray-light));
-		color: rgb(var(--gray-dark));
-	}
-	@media (max-width: 720px) {
-		.publication {
-			flex-direction: column;
-			gap: 0.5em;
-		}
-	}
-</style>

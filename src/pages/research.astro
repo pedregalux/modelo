@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ResearchCard from '../components/ResearchCard.astro';
+import { AUTHOR_NAME, SITE_DESCRIPTION } from '../consts';
+
+const research = (await getCollection('research')).sort(
+	(a, b) => b.data.startDate.valueOf() - a.data.startDate.valueOf(),
+);
+---
+
+<BaseLayout title={`Investigación · ${AUTHOR_NAME}`} description={SITE_DESCRIPTION} mainClass="w-[960px]">
+	<h1 class="mb-1 text-[3.052em] font-bold leading-[1.1] text-ink">Investigación</h1>
+	<p class="mb-8 text-slate">
+		Líneas y proyectos de investigación en los que participo o he participado.
+	</p>
+
+	<div class="grid grid-cols-2 gap-6 max-[720px]:grid-cols-1">
+		{research.map((r) => <ResearchCard {...r} />)}
+	</div>
+</BaseLayout>

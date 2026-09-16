@@ -4,78 +4,32 @@ import { AUTHOR_EMAIL, AUTHOR_NAME, AUTHOR_URLS } from '../consts';
 const today = new Date();
 ---
 
-<footer>
-	<div class="footer-content">
-		<p class="footer-name">{AUTHOR_NAME}</p>
-		<p class="footer-email">
-			<a href={AUTHOR_URLS.email}>{AUTHOR_EMAIL}</a>
+<footer class="bg-[linear-gradient(rgba(229,219,204,0.38),#f9f6ef)] px-4 pb-16 pt-8 text-center text-slate">
+	<div class="flex flex-col items-center gap-2">
+		<p class="m-0 font-bold text-night">{AUTHOR_NAME}</p>
+		<p class="m-0">
+			<a href={AUTHOR_URLS.email} class="no-underline text-accent hover:text-accent-dark">
+				{AUTHOR_EMAIL}
+			</a>
 		</p>
-		<div class="social-links">
-			<a href={AUTHOR_URLS.orcid} target="_blank">
+		<div class="mt-2 flex flex-wrap justify-center gap-4">
+			<a href={AUTHOR_URLS.orcid} target="_blank" class="no-underline text-accent hover:text-accent-dark text-[0.9em]">
 				<span class="sr-only">Perfil ORCID</span>
 				ORCID
 			</a>
-			<a href={AUTHOR_URLS.googlescholar} target="_blank">
+			<a href={AUTHOR_URLS.googlescholar} target="_blank" class="no-underline text-accent hover:text-accent-dark text-[0.9em]">
 				<span class="sr-only">Google Scholar</span>
 				Google Scholar
 			</a>
-			<a href={AUTHOR_URLS.github} target="_blank">
+			<a href={AUTHOR_URLS.github} target="_blank" class="no-underline text-accent hover:text-accent-dark text-[0.9em]">
 				<span class="sr-only">GitHub</span>
 				GitHub
 			</a>
-			<a href={AUTHOR_URLS.email}>
+			<a href={AUTHOR_URLS.email} class="no-underline text-accent hover:text-accent-dark text-[0.9em]">
 				<span class="sr-only">Correo</span>
 				Correo
 			</a>
 		</div>
 	</div>
-	<p class="copyright">&copy; {today.getFullYear()} {AUTHOR_NAME}. Todos los derechos reservados.</p>
+	<p class="mt-6 text-[0.85em]">&copy; {today.getFullYear()} {AUTHOR_NAME}. Todos los derechos reservados.</p>
 </footer>
-<style>
-	footer {
-		padding: 2em 1em 4em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
-		text-align: center;
-	}
-	.footer-content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.5em;
-	}
-	.footer-name {
-		margin: 0;
-		font-weight: 700;
-		color: rgb(var(--gray-dark));
-	}
-	.footer-email {
-		margin: 0;
-	}
-	.footer-email a {
-		color: var(--accent);
-		text-decoration: none;
-	}
-	.footer-email a:hover {
-		color: var(--accent-dark);
-	}
-	.social-links {
-		display: flex;
-		justify-content: center;
-		flex-wrap: wrap;
-		gap: 1em;
-		margin-top: 0.5em;
-	}
-	.social-links a {
-		text-decoration: none;
-		color: var(--accent);
-		font-size: 0.9em;
-	}
-	.social-links a:hover {
-		color: var(--accent-dark);
-	}
-	.copyright {
-		margin: 1.5em 0 0 0;
-		font-size: 0.85em;
-	}
-</style>

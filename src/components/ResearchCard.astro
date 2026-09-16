@@ -2,9 +2,9 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 
-type Props = CollectionEntry<'projects'>;
+type Props = CollectionEntry<'research'>;
 
-const { title, description, startDate, status, tags, heroImage, links } = Astro.props.data;
+const { title, description, startDate, status, tags, heroImage } = Astro.props.data;
 
 const statusClasses: Record<string, string> = {
 	activo: 'bg-[rgba(34,197,94,0.15)] text-[rgb(21,128,61)]',
@@ -14,7 +14,7 @@ const statusClasses: Record<string, string> = {
 ---
 
 <article class="overflow-hidden rounded-xl border border-mist bg-white transition-shadow duration-200 hover:shadow-card">
-	<a class="group no-underline text-inherit" href={`/projects/${Astro.props.id}/`}>
+	<a class="group no-underline text-inherit" href={`/research/${Astro.props.id}/`}>
 		{heroImage && (
 			<div>
 				<Image width={640} height={360} src={heroImage} alt="" class="block h-[180px] w-full object-cover" />

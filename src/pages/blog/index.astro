@@ -10,21 +10,8 @@ const posts = (await getCollection('blog')).sort(
 ---
 
 <BaseLayout title={`Blog · ${AUTHOR_NAME}`} description={SITE_DESCRIPTION}>
-	<style slot="head">
-		main {
-			width: 720px;
-		}
-		h1 {
-			margin-bottom: 0.25em;
-		}
-		.subtitle {
-			color: rgb(var(--gray));
-			margin-bottom: 2em;
-		}
-	</style>
-
-	<h1>Blog</h1>
-	<p class="subtitle">Reflexiones, experiencias de aula y resúmenes de mis actividades académicas.</p>
+	<h1 class="mb-1 text-[3.052em] font-bold leading-[1.1] text-ink">Blog</h1>
+	<p class="mb-8 text-slate">Reflexiones, experiencias de aula y resúmenes de mis actividades académicas.</p>
 
 	{posts.map((post) => <PostCard {...post} />)}
 </BaseLayout>

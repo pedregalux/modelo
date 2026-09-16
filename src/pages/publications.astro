@@ -20,40 +20,16 @@ for (const pub of publications) {
 	title={`Publicaciones · ${AUTHOR_NAME}`}
 	description={SITE_DESCRIPTION}
 >
-	<style slot="head">
-		main {
-			width: 720px;
-		}
-		h1 {
-			margin-bottom: 0.25em;
-		}
-		.subtitle {
-			color: rgb(var(--gray));
-			margin-bottom: 2em;
-		}
-		h2 {
-			font-size: 1.5rem;
-			margin-top: 2em;
-			border-bottom: 1px solid rgb(var(--gray-light));
-			padding-bottom: 0.4em;
-		}
-		ul {
-			list-style: none;
-			margin: 0;
-			padding: 0;
-		}
-	</style>
-
-	<h1>Publicaciones</h1>
-	<p class="subtitle">
+	<h1 class="mb-1 text-[3.052em] font-bold leading-[1.1] text-ink">Publicaciones</h1>
+	<p class="mb-8 text-slate">
 		Artículos, conferencias y capítulos de libro. Haz clic en el título para acceder a la versión
 		completa o al DOI.
 	</p>
 
 	{[...grouped.entries()].map(([year, items]) => (
 		<section>
-			<h2>{year}</h2>
-			<ul>
+			<h2 class="mt-8 border-b border-mist pb-[0.4em] text-[1.5rem] text-ink">{year}</h2>
+			<ul class="m-0 list-none p-0">
 				{items.map((pub) => <PublicationItem {...pub} />)}
 			</ul>
 		</section>

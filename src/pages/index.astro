@@ -14,7 +14,6 @@ import {
 	SITE_DESCRIPTION,
 	SITE_TITLE,
 } from '../consts';
-import ProfileImage from '../assets/blog-placeholder-about.jpg';
 
 const publications = (await getCollection('publications')).sort(
 	(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
@@ -37,163 +36,82 @@ const posts = (await getCollection('blog')).sort(
 const recentPosts = posts.slice(0, 3);
 ---
 
-<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<style slot="head">
-		main {
-			width: 960px;
-		}
-		.section {
-			margin: 3em 0;
-		}
-		.section-header {
-			display: flex;
-			justify-content: space-between;
-			align-items: baseline;
-			gap: 1em;
-			margin-bottom: 1.25em;
-			border-bottom: 1px solid rgb(var(--gray-light));
-			padding-bottom: 0.5em;
-		}
-		.section-header h2 {
-			margin: 0;
-			font-size: 1.75rem;
-		}
-		.section-header a {
-			font-size: 0.9rem;
-			text-decoration: none;
-		}
-		.section-header a:hover {
-			text-decoration: underline;
-		}
-		.hero {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			text-align: center;
-			margin-bottom: 2em;
-		}
-		.hero img {
-			width: 160px;
-			height: 160px;
-			border-radius: 50%;
-			object-fit: cover;
-			box-shadow: var(--box-shadow);
-		}
-		.hero h1 {
-			margin: 0 0 0.15em 0;
-			font-size: 2.5rem;
-		}
-		.hero .role {
-			margin: 0 0 0.2em 0;
-			color: var(--accent);
-			font-weight: 700;
-			font-size: 1.1rem;
-		}
-		.hero .affiliation {
-			margin: 0 0 0.75em 0;
-			color: rgb(var(--gray));
-		}
-		.hero .bio {
-			margin: 0 auto;
-			max-width: 60ch;
-		}
-		.hero-links {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: center;
-			gap: 0.75em;
-			margin-top: 1em;
-		}
-		.hero-links a {
-			font-size: 0.9rem;
-			padding: 0.45em 1em;
-			border-radius: 999px;
-			text-decoration: none;
-			border: 1px solid rgb(var(--gray-light));
-			color: var(--accent);
-		}
-		.hero-links a:hover {
-			border-color: var(--accent-dark);
-			color: var(--accent-dark);
-		}
-		.publications-list {
-			list-style: none;
-			margin: 0;
-			padding: 0;
-		}
-		.grid {
-			display: grid;
-			grid-template-columns: repeat(2, 1fr);
-			gap: 1.5em;
-		}
-		@media (max-width: 720px) {
-			.hero {
-				grid-template-columns: 1fr;
-				text-align: center;
-			}
-			.hero img {
-				margin: 0 auto;
-			}
-			.hero .bio {
-				margin: 0 auto;
-			}
-			.hero-links {
-				justify-content: center;
-			}
-			.grid {
-				grid-template-columns: 1fr;
-			}
-		}
-	</style>
-
-	<section class="hero">
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} mainClass="w-[960px]">
+	<section class="mb-8 flex flex-col items-center text-center">
 		<div>
-			<h1>{AUTHOR_NAME}</h1>
-			<p class="role">{AUTHOR_ROLE}</p>
-			<p class="affiliation">{AUTHOR_AFFILIATION}</p>
-			<p class="bio">{AUTHOR_SHORT_BIO}</p>
-			<div class="hero-links">
-				<a href={AUTHOR_URLS.orcid} target="_blank" rel="noopener">ORCID</a>
-				<a href={AUTHOR_URLS.googlescholar} target="_blank" rel="noopener">Google Scholar</a>
-				<a href={AUTHOR_URLS.email}>Contacto</a>
+			<h1 class="m-0 mb-[0.15em] text-[2.5rem]">{AUTHOR_NAME}</h1>
+			<p class="m-0 mb-[0.2em] text-[1.1rem] font-bold text-accent">{AUTHOR_ROLE}</p>
+			<p class="m-0 mb-3 text-slate">{AUTHOR_AFFILIATION}</p>
+			<p class="mx-auto max-w-[60ch]">{AUTHOR_SHORT_BIO}</p>
+			<div class="mt-4 flex flex-wrap justify-center gap-3">
+				<a
+					href={AUTHOR_URLS.orcid}
+					target="_blank"
+					rel="noopener"
+					class="rounded-full border border-mist px-4 py-[0.45em] text-[0.9rem] no-underline text-accent hover:border-accent-dark hover:text-accent-dark"
+				>
+					ORCID
+				</a>
+				<a
+					href={AUTHOR_URLS.googlescholar}
+					target="_blank"
+					rel="noopener"
+					class="rounded-full border border-mist px-4 py-[0.45em] text-[0.9rem] no-underline text-accent hover:border-accent-dark hover:text-accent-dark"
+				>
+					Google Scholar
+				</a>
+				<a
+					href={AUTHOR_URLS.email}
+					class="rounded-full border border-mist px-4 py-[0.45em] text-[0.9rem] no-underline text-accent hover:border-accent-dark hover:text-accent-dark"
+				>
+					Contacto
+				</a>
 			</div>
 		</div>
 	</section>
 
-	<section class="section">
-		<div class="section-header">
-			<h2>Publicaciones destacadas</h2>
-			<a href="/publications">Ver todas →</a>
+	<section class="my-12">
+		<div class="mb-5 flex items-baseline justify-between gap-4 border-b border-mist pb-2">
+			<h2 class="m-0 text-[1.75rem]">Publicaciones destacadas</h2>
+			<a href="/publications" class="text-[0.9rem] no-underline hover:underline">
+				Ver todas →
+			</a>
 		</div>
-		<ul class="publications-list">
+		<ul class="m-0 list-none p-0">
 			{featuredPublications.map((p) => <PublicationItem {...p} />)}
 		</ul>
 	</section>
 
-	<section class="section">
-		<div class="section-header">
-			<h2>Proyectos</h2>
-			<a href="/projects">Ver todos →</a>
+	<section class="my-12">
+		<div class="mb-5 flex items-baseline justify-between gap-4 border-b border-mist pb-2">
+			<h2 class="m-0 text-[1.75rem]">Proyectos</h2>
+			<a href="/projects" class="text-[0.9rem] no-underline hover:underline">
+				Ver todos →
+			</a>
 		</div>
-		<div class="grid">
+		<div class="grid grid-cols-2 gap-6 max-[720px]:grid-cols-1">
 			{featuredProjects.map((p) => <ProjectCard {...p} />)}
 		</div>
 	</section>
 
-	<section class="section">
-		<div class="section-header">
-			<h2>Videos recientes</h2>
-			<a href="/videos">Ver todos →</a>
+	<section class="my-12">
+		<div class="mb-5 flex items-baseline justify-between gap-4 border-b border-mist pb-2">
+			<h2 class="m-0 text-[1.75rem]">Videos recientes</h2>
+			<a href="/videos" class="text-[0.9rem] no-underline hover:underline">
+				Ver todos →
+			</a>
 		</div>
-		<div class="grid">
+		<div class="grid grid-cols-2 gap-6 max-[720px]:grid-cols-1">
 			{featuredVideos.map((v) => <VideoCard {...v} />)}
 		</div>
 	</section>
 
-	<section class="section">
-		<div class="section-header">
-			<h2>Del blog</h2>
-			<a href="/blog">Ver todas las entradas →</a>
+	<section class="my-12">
+		<div class="mb-5 flex items-baseline justify-between gap-4 border-b border-mist pb-2">
+			<h2 class="m-0 text-[1.75rem]">Del blog</h2>
+			<a href="/blog" class="text-[0.9rem] no-underline hover:underline">
+				Ver todas las entradas →
+			</a>
 		</div>
 		{recentPosts.map((post) => <PostCard {...post} />)}
 	</section>

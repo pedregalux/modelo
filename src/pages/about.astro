@@ -15,77 +15,55 @@ import {
 	title={`Sobre mí · ${AUTHOR_NAME}`}
 	description="Trayectoria académica, formación, líneas de investigación e intereses docentes."
 >
-	<style slot="head">
-		main {
-			width: 720px;
-		}
-		h2 {
-			font-size: 1.75rem;
-			margin-top: 2em;
-			border-bottom: 1px solid rgb(var(--gray-light));
-			padding-bottom: 0.4em;
-		}
-		ul {
-			padding-left: 1.2em;
-		}
-		.contact-list {
-			list-style: none;
-			padding: 0;
-		}
-		.contact-list li {
-			margin-bottom: 0.5em;
-		}
-	</style>
+	<h1 class="mb-2 text-[3.052em] font-bold leading-[1.1] text-ink">Sobre mí</h1>
 
-	<h1>Sobre mí</h1>
-
-	<p>
+	<p class="mb-4">
 		Soy <strong>{AUTHOR_NAME}</strong>, {AUTHOR_ROLE} en {AUTHOR_AFFILIATION}. Mi trabajo se centra en
 		la innovación educativa, la evaluación del aprendizaje y el uso crítico de la tecnología en la
 		educación superior. A lo largo de mi trayectoria he combinado la docencia, la investigación y la
 		gestión académica, con especial interés en la equidad y la inclusión.
 	</p>
 
-	<h2>Formación</h2>
-	<ul>
+	<h2 class="mt-8 border-b border-mist pb-[0.4em] text-[1.75rem] text-ink">Formación</h2>
+	<ul class="pl-[1.2em]">
 		<li>Doctorado en Ciencias de la Educación — Universidad Internacional (2014)</li>
 		<li>Magíster en Tecnología Educativa — Universidad Internacional (2009)</li>
 		<li>Licenciatura en Pedagogía — Universidad Nacional (2006)</li>
 	</ul>
 
-	<h2>Líneas de investigación</h2>
-	<ul>
+	<h2 class="mt-8 border-b border-mist pb-[0.4em] text-[1.75rem] text-ink">Líneas de investigación</h2>
+	<ul class="pl-[1.2em]">
 		<li>Innovación y mejora de la docencia universitaria</li>
 		<li>Evaluación formativa y retroalimentación</li>
 		<li>Tecnología educativa y analíticas de aprendizaje</li>
 		<li>Equidad, inclusión y brechas de género en educación</li>
 	</ul>
 
-	<h2>Docencia</h2>
-	<p>
+	<h2 class="mt-8 border-b border-mist pb-[0.4em] text-[1.75rem] text-ink">Docencia</h2>
+	<p class="mb-4">
 		Imparto asignaturas de grado y posgrado en el área de educación: <em>Innovación y Didáctica
 		Universitaria</em>, <em>Evaluación del Aprendizaje</em> y <em>Tecnología Educativa</em>. También
 		dirijo tesis de doctorado y magíster sobre evaluación y tecnología educativa.
 	</p>
 
-	<h2>Gestión académica</h2>
-	<p>
+	<h2 class="mt-8 border-b border-mist pb-[0.4em] text-[1.75rem] text-ink">Gestión académica</h2>
+	<p class="mb-4">
 		He participado en comités curriculares, en la dirección de programas de formación docente y en
 		proyectos institucionales de innovación educativa. Soy parte de la Red de Innovación Docente de
 		la universidad y colaboro con redes académicas internacionales.
 	</p>
 
-	<h2>Contacto</h2>
-	<ul class="contact-list">
-		<li>
-			Correo: <a href={AUTHOR_URLS.email}>{AUTHOR_EMAIL}</a>
+	<h2 class="mt-8 border-b border-mist pb-[0.4em] text-[1.75rem] text-ink">Contacto</h2>
+	<ul class="list-none p-0">
+		<li class="mb-2">
+			Correo: <a href={AUTHOR_URLS.email} class="text-accent hover:text-accent-dark">{AUTHOR_EMAIL}</a>
 		</li>
-		<li>Ubicación: {AUTHOR_LOCATION}</li>
-		<li>
-			ORCID: <a href={AUTHOR_URLS.orcid} target="_blank" rel="noopener">{AUTHOR_ORCID}</a>
+		<li class="mb-2">Ubicación: {AUTHOR_LOCATION}</li>
+		<li class="mb-2">
+			ORCID: <a href={AUTHOR_URLS.orcid} target="_blank" rel="noopener" class="text-accent hover:text-accent-dark">{AUTHOR_ORCID}</a>
 		</li>
-		<li>
-			Google Scholar: <a href={AUTHOR_URLS.googlescholar} target="_blank" rel="noopener">Perfil</a>
+		<li class="mb-2">
+			Google Scholar: <a href={AUTHOR_URLS.googlescholar} target="_blank" rel="noopener" class="text-accent hover:text-accent-dark">Perfil</a>
 		</li>
 	</ul>
 </BaseLayout>

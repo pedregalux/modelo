@@ -9,36 +9,13 @@ const projects = (await getCollection('projects')).sort(
 );
 ---
 
-<BaseLayout title={`Proyectos · ${AUTHOR_NAME}`} description={SITE_DESCRIPTION}>
-	<style slot="head">
-		main {
-			width: 960px;
-		}
-		h1 {
-			margin-bottom: 0.25em;
-		}
-		.subtitle {
-			color: rgb(var(--gray));
-			margin-bottom: 2em;
-		}
-		.grid {
-			display: grid;
-			grid-template-columns: repeat(2, 1fr);
-			gap: 1.5em;
-		}
-		@media (max-width: 720px) {
-			.grid {
-				grid-template-columns: 1fr;
-			}
-		}
-	</style>
-
-	<h1>Proyectos</h1>
-	<p class="subtitle">
+<BaseLayout title={`Proyectos · ${AUTHOR_NAME}`} description={SITE_DESCRIPTION} mainClass="w-[960px]">
+	<h1 class="mb-1 text-[3.052em] font-bold leading-[1.1] text-ink">Proyectos</h1>
+	<p class="mb-8 text-slate">
 		Proyectos de investigación, docencia y extensión en los que participo o he participado.
 	</p>
 
-	<div class="grid">
+	<div class="grid grid-cols-2 gap-6 max-[720px]:grid-cols-1">
 		{projects.map((p) => <ProjectCard {...p} />)}
 	</div>
 </BaseLayout>

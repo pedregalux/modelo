@@ -3,29 +3,68 @@ import { AUTHOR_NAME, SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header>
-	<nav>
-		<h2>
-			<a href="/">{SITE_TITLE}</a>
+<header class="bg-white px-4 shadow-[0_2px_8px_rgba(15,18,25,0.05)]">
+	<nav class="flex flex-wrap items-center justify-between gap-4">
+		<h2 class="m-0 whitespace-nowrap text-base">
+			<a href="/" class="no-underline">{SITE_TITLE}</a>
 		</h2>
 		<button
-			class="nav-toggle"
+			class="nav-toggle group flex h-11 w-11 cursor-pointer flex-col justify-center gap-[5px] border-0 bg-transparent px-2.5 md:hidden"
 			type="button"
 			aria-expanded="false"
 			aria-controls="internal-links"
 			aria-label="Abrir menú"
 		>
-			<span class="nav-toggle-bar"></span>
-			<span class="nav-toggle-bar"></span>
-			<span class="nav-toggle-bar"></span>
+			<span class="block h-0.5 w-full bg-accent transition-all duration-200 group-[.active]:translate-y-[7px] group-[.active]:rotate-45"></span>
+			<span class="block h-0.5 w-full bg-accent transition-all duration-200 group-[.active]:opacity-0"></span>
+			<span class="block h-0.5 w-full bg-accent transition-all duration-200 group-[.active]:-translate-y-[7px] group-[.active]:-rotate-45"></span>
 		</button>
-		<div class="internal-links" id="internal-links">
-			<HeaderLink href="/">Inicio</HeaderLink>
-			<HeaderLink href="/publications">Publicaciones</HeaderLink>
-			<HeaderLink href="/projects">Proyectos</HeaderLink>
-			<HeaderLink href="/videos">Videos</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/about">Sobre mí</HeaderLink>
+		<div
+			class="hidden w-full flex-col items-center pb-4 open:flex md:flex md:w-auto md:flex-row md:flex-wrap md:items-center md:gap-6 md:pb-0"
+			id="internal-links"
+		>
+			<HeaderLink
+				href="/"
+				class="border-b-2 border-transparent px-2 py-[0.65em] text-accent md:border-b-4 md:py-4"
+			>
+				Inicio
+			</HeaderLink>
+			<HeaderLink
+				href="/publications"
+				class="border-b-2 border-transparent px-2 py-[0.65em] text-accent md:border-b-4 md:py-4"
+			>
+				Publicaciones
+			</HeaderLink>
+			<HeaderLink
+				href="/projects"
+				class="border-b-2 border-transparent px-2 py-[0.65em] text-accent md:border-b-4 md:py-4"
+			>
+				Proyectos
+			</HeaderLink>
+			<HeaderLink
+				href="/research"
+				class="border-b-2 border-transparent px-2 py-[0.65em] text-accent md:border-b-4 md:py-4"
+			>
+				Investigación
+			</HeaderLink>
+			<HeaderLink
+				href="/videos"
+				class="border-b-2 border-transparent px-2 py-[0.65em] text-accent md:border-b-4 md:py-4"
+			>
+				Videos
+			</HeaderLink>
+			<HeaderLink
+				href="/blog"
+				class="border-b-2 border-transparent px-2 py-[0.65em] text-accent md:border-b-4 md:py-4"
+			>
+				Blog
+			</HeaderLink>
+			<HeaderLink
+				href="/about"
+				class="border-b-2 border-transparent px-2 py-[0.65em] text-accent md:border-b-4 md:py-4"
+			>
+				Sobre mí
+			</HeaderLink>
 		</div>
 	</nav>
 </header>
@@ -41,99 +80,3 @@ import HeaderLink from './HeaderLink.astro';
 		});
 	}
 </script>
-<style>
-	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
-		white-space: nowrap;
-	}
-
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-	}
-	nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1em;
-		flex-wrap: wrap;
-	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--accent);
-		border-bottom: 4px solid transparent;
-		text-decoration: none;
-	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
-	}
-	.nav-toggle {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		gap: 5px;
-		width: 44px;
-		height: 44px;
-		padding: 0 10px;
-		border: 0;
-		background: transparent;
-		cursor: pointer;
-	}
-	.nav-toggle-bar {
-		display: block;
-		width: 100%;
-		height: 2px;
-		background: var(--accent);
-		transition: transform 0.2s ease, opacity 0.2s ease;
-	}
-	.nav-toggle.active .nav-toggle-bar:nth-child(1) {
-		transform: translateY(7px) rotate(45deg);
-	}
-	.nav-toggle.active .nav-toggle-bar:nth-child(2) {
-		opacity: 0;
-	}
-	.nav-toggle.active .nav-toggle-bar:nth-child(3) {
-		transform: translateY(-7px) rotate(-45deg);
-	}
-	.internal-links {
-		display: none;
-		width: 100%;
-		flex-direction: column;
-		align-items: center;
-		gap: 0;
-		padding: 0.5em 0 1em;
-	}
-	.internal-links.open {
-		display: flex;
-	}
-	.internal-links a {
-		padding: 0.65em 0.5em;
-		border-bottom-width: 2px;
-	}
-	@media (min-width: 721px) {
-		.nav-toggle {
-			display: none;
-		}
-		.internal-links {
-			display: flex;
-			width: auto;
-			flex-direction: row;
-			flex-wrap: wrap;
-			align-items: center;
-			gap: 1.5em;
-			padding: 0;
-		}
-		.internal-links a {
-			padding: 1em 0.5em;
-			border-bottom-width: 4px;
-		}
-	}
-</style>
