@@ -1,9 +1,12 @@
-# Portafolio académico (Astro + Keystatic + Cloudflare Pages)
+# Portafolio académico (Astro + Keystatic + Cloudflare Workers)
 
 Portafolio académico de una profesora universitaria: publicaciones, proyectos, videos y blog.
-Sitio estático construido con [Astro](https://astro.build), contenido gestionado con
+Sitio construido con [Astro](https://astro.build), contenido gestionado con
 [Keystatic](https://keystatic.com) (CMS headless basado en Git) y desplegado en
-[Cloudflare Pages](https://pages.cloudflare.com) a través de GitHub.
+[Cloudflare Workers](https://developers.cloudflare.com/workers/).
+
+Las páginas de contenido se prerenderizan de forma estática y el panel del CMS
+(`/keystatic`) se renderiza en servidor, por lo que está disponible en producción.
 
 ## Estructura de contenido
 
@@ -30,48 +33,45 @@ pnpm dev
 
 ### Usar el CMS con GitHub
 
-1. Sube el proyecto a un repositorio de GitHub.
-2. Crea un archivo `.env` a partir de `.env.example` y define
+El CMS necesita una GitHub App para autenticarse y guardar el contenido como commits.
+
+1. Crea un archivo `.env` a partir de `.env.example` y define
    `PUBLIC_KEYSTATIC_GITHUB_REPO=tu-usuario/tu-repositorio`.
-3. Con `pnpm dev` en marcha, entra a `/keystatic`, pulsa **Login with GitHub** y sigue el
+2. Con `pnpm dev` en marcha, entra a `/keystatic`, pulsa **Login with GitHub** y sigue el
    asistente (crea la GitHub App y la instala en tu repositorio). Keystatic generará las
-   variables de autenticación en tu `.env`.
-4. Guarda y publica contenido desde el panel: Keystatic crea commits en el repositorio.
-5. Al hacer push a `main`, el workflow de GitHub Actions despliega el sitio en Cloudflare Pages.
+   variables de autenticación (`PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`,
+   `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`, `KEYSTATIC_SECRET`) en tu `.env`.
+3. Añade a la GitHub App la URL de callback de producción (GitHub → Settings → Developer
+   settings → GitHub Apps → tu app → Callback URL):
+   `https://<tu-worker>.workers.dev/api/keystatic/github/oauth/callback`.
+4. Copia esas mismas variables a Cloudflare (ver siguiente sección).
+5. Guarda y publica contenido desde el panel: Keystatic crea commits en el repositorio y
+   Cloudflare redepliega automáticamente.
 
-> El panel solo se activa en desarrollo. El build de producción (`pnpm build`) genera un
-> sitio 100% estático sin el CMS.
+## Despliegue en Cloudflare Workers
 
-## Despliegue en Cloudflare Pages
+El proyecto usa Workers Builds (integración nativa con Git). En Cloudflare, el proyecto se
+conecta al repositorio con **build command** `pnpm build` y **deploy command** `npx wrangler deploy`.
 
-### Opción A: GitHub Actions (incluida)
+Variables de entorno en Cloudflare:
 
-El repositorio incluye `.github/workflows/deploy.yml` que compila y despliega en cada push a `main`.
+1. **Build variables** (Settings → Build → Build variables and secrets), disponibles en `astro build`:
+   - `PUBLIC_KEYSTATIC_GITHUB_REPO`
+   - `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`
+2. **Runtime secrets** (Settings → Variables & Secrets), leídas por la API de Keystatic:
+   - `KEYSTATIC_GITHUB_CLIENT_ID`
+   - `KEYSTATIC_GITHUB_CLIENT_SECRET`
+   - `KEYSTATIC_SECRET` (mínimo 32 caracteres)
 
-1. Crea un proyecto Pages en Cloudflare (por ejemplo `modelo-portfolio`), sin conectar aún a Git.
-2. Añade dos **Secretos** en el repositorio (Settings → Secrets and variables → Actions):
-   - `CLOUDFLARE_API_TOKEN` — token de la API de Cloudflare (dashboard → My Profile → API Tokens).
-   - `CLOUDFLARE_ACCOUNT_ID` — ID de tu cuenta Cloudflare.
-3. Ajusta `--project-name` en el workflow si tu proyecto se llama distinto.
-4. Haz push a `main`: el sitio queda disponible en `https://<proyecto>.pages.dev`.
-
-### Opción B: integración nativa de Cloudflare Pages
-
-En Cloudflare → Pages → **Create a project** → conectar el repositorio de GitHub:
-
-- Framework preset: **Astro**
-- Build command: `pnpm build`
-- Output directory: `dist`
-
-Ambas opciones generan el mismo resultado. La opción A es más transparente (CI visible en
-GitHub Actions).
+Configuración del Worker en `wrangler.jsonc` (nombre, `compatibility_date` y
+`compatibility_flags`).
 
 ## Personalización
 
 - Datos personales (nombre, universidad, correo, enlaces): `src/consts.ts`.
 - URLs (ORCID, Google Scholar, GitHub): `src/consts.ts`.
 - `site` (dominio canónico): `astro.config.mjs`.
-- Nombre del proyecto Pages en el workflow: `.github/workflows/deploy.yml`.
+- Configuración del Worker (nombre, flags): `wrangler.jsonc`.
 
 ## Comandos
 
@@ -79,5 +79,5 @@ GitHub Actions).
 | :------------------ | :------------------------------------------ |
 | `pnpm install`      | Instala dependencias                        |
 | `pnpm dev`          | Servidor de desarrollo en `localhost:4321`  |
-| `pnpm build`        | Compila el sitio estático en `./dist/`      |
+| `pnpm build`        | Prerenderiza las páginas y compila el worker SSR en `./dist/` |
 | `pnpm preview`      | Previsualiza el build en local              |
