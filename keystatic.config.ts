@@ -26,7 +26,7 @@ const tagsField = fields.array(fields.text({ label: 'Etiqueta' }), {
 });
 
 export default config({
-	storage: isGitHubMode ? { kind: 'github', repo: repo! } : { kind: 'local' },
+	storage: isGitHubMode ? { kind: 'github', repo: repo! as `${string}/${string}` } : { kind: 'local' },
 	collections: {
 		posts: collection({
 			label: 'Blog',
@@ -59,6 +59,7 @@ export default config({
 			label: 'Publicaciones',
 			slugField: 'title',
 			path: 'src/content/publications/*',
+			format: { contentField: 'content' },
 			schema: {
 				title: fields.slug({
 					name: { label: 'Título', validation: { isRequired: true } },
@@ -100,6 +101,7 @@ export default config({
 					label: 'Destacada',
 					description: 'Se muestra en la portada.',
 				}),
+				content: fields.markdoc({ label: 'Resumen extendido' }),
 			},
 		}),
 		projects: collection({
@@ -202,6 +204,7 @@ export default config({
 			label: 'Videos',
 			slugField: 'title',
 			path: 'src/content/videos/*',
+			format: { contentField: 'content' },
 			schema: {
 				title: fields.slug({
 					name: { label: 'Título', validation: { isRequired: true } },
@@ -229,6 +232,7 @@ export default config({
 					label: 'Destacado',
 					description: 'Se muestra en la portada.',
 				}),
+				content: fields.markdoc({ label: 'Descripción extendida' }),
 			},
 		}),
 	},

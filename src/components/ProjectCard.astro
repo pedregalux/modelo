@@ -4,7 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 
 type Props = CollectionEntry<'projects'>;
 
-const { title, description, startDate, status, tags, heroImage, links } = Astro.props.data;
+const { title, description, startDate, status, tags, heroImage } = Astro.props.data;
 
 const statusClasses: Record<string, string> = {
 	activo: 'bg-[rgba(34,197,94,0.15)] text-[rgb(21,128,61)]',

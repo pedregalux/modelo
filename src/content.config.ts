@@ -52,9 +52,9 @@ const projects = defineCollection({
       heroImage: z.optional(image().nullable()),
       links: z
         .object({
-          github: z.string().url().nullable().optional(),
-          site: z.string().url().nullable().optional(),
-          paper: z.string().url().nullable().optional(),
+          github: z.url().nullable().optional(),
+          site: z.url().nullable().optional(),
+          paper: z.url().nullable().optional(),
         })
         .nullable()
         .optional(),
@@ -78,9 +78,9 @@ const research = defineCollection({
       heroImage: z.optional(image().nullable()),
       links: z
         .object({
-          github: z.string().url().nullable().optional(),
-          site: z.string().url().nullable().optional(),
-          paper: z.string().url().nullable().optional(),
+          github: z.url().nullable().optional(),
+          site: z.url().nullable().optional(),
+          paper: z.url().nullable().optional(),
         })
         .nullable()
         .optional(),

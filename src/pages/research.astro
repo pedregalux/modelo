@@ -16,6 +16,6 @@ const research = (await getCollection('research')).sort(
 	</p>
 
 	<div class="grid grid-cols-2 gap-6 max-[720px]:grid-cols-1">
-		{research.map((r) => <ResearchCard {...r} />)}
+		{research.map((r: any) => <ResearchCard {...r} />)}
 	</div>
 </BaseLayout>
