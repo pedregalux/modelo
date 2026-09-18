@@ -13,7 +13,7 @@ export const AUTHOR_ORCID = '0000-0000-0000-0000';
 export const AUTHOR_SHORT_BIO =
 	'Profesora universitaria e investigadora en innovación educativa, evaluación del aprendizaje y tecnología educativa.';
 export const AUTHOR_URLS = {
-	site: 'https://example.com',
+	site: 'https://modelo-portfolio.pages.dev',
 	orcid: 'https://orcid.org/0000-0000-0000-0000',
 	googlescholar: 'https://scholar.google.com/',
 	github: 'https://github.com/',

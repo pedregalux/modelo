@@ -19,7 +19,7 @@ if (isProductionBuild) {
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://example.com',
+	site: 'https://modelo-portfolio.pages.dev',
 	output: 'static',
 	vite: {
 		plugins: [tailwindcss()],
