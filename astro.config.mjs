@@ -25,6 +25,25 @@ export default defineConfig({
 	}),
 	vite: {
 		plugins: [tailwindcss()],
+		ssr: {
+			optimizeDeps: {
+				// Dependencias CommonJS de Keystatic. En el dev server de
+				// Cloudflare (workerd) hay que precompilarlas a ESM para evitar
+				// "exports is not defined". Requieren estar hoisteadas
+				// (publicHoistPattern en pnpm-workspace.yaml).
+				include: [
+					'@keystatic/core',
+					'emery',
+					'emery/assertions',
+					'@braintree/sanitize-url',
+					'@sindresorhus/slugify',
+					'@markdoc/markdoc',
+					'ignore',
+					'graphql',
+					'cookie',
+				],
+			},
+		},
 	},
 	integrations: [
 		react(),

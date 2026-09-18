@@ -2,3 +2,14 @@ allowBuilds:
   esbuild: true
   sharp: true
   workerd: true
+
+# Hoistea dependencias CommonJS transitivas de Keystatic para que Vite
+# pueda precompilarlas a ESM en el dev server de Cloudflare (workerd).
+publicHoistPattern:
+  - emery
+  - '@braintree/sanitize-url'
+  - '@sindresorhus/slugify'
+  - '@markdoc/markdoc'
+  - ignore
+  - graphql
+  - cookie
