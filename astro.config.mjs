@@ -25,6 +25,11 @@ export default defineConfig({
 	}),
 	vite: {
 		plugins: [tailwindcss()],
+		optimizeDeps: {
+			// Precompila el núcleo y la UI de Keystatic para el cliente (el panel
+			// se renderiza con client:only="react").
+			include: ['@keystatic/core', '@keystatic/core/ui'],
+		},
 		ssr: {
 			optimizeDeps: {
 				// Dependencias CommonJS de Keystatic. En el dev server de
